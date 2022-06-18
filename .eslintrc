@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  },
+  "extends": ["plugin:react/recommended", "plugin:prettier/recommended"]
+}
+/*
+"eslint:recommended"
+
+*/

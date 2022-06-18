@@ -1,0 +1,82 @@
+.error-message {
+  color: #d80f4b;
+}
+
+.error-message::before {
+  display: inline;
+  content: "⚠ ";
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.register-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3)),
+    url("https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
+  background-size: cover;
+  background-position: center;
+}
+
+.form-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.register-form {
+  background-color: white;
+  padding: 0px 60px;
+  border-radius: 10px;
+}
+
+.create-account {
+  color: rgb(77, 1, 77);
+  font-size: 20px;
+  text-align: center;
+}
+.submit-form {
+  width: 50%;
+  height: 40px;
+  border: none;
+  background-color: rebeccapurple;
+  color: white;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.formInput {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+}
+
+.form-input {
+  padding: 15px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+.eye {
+  position: relative;
+  bottom: 50px;
+  left: 255px;
+}
+label {
+  font-size: 14px;
+  color: #064663;
+  font-weight: bold;
+}
+
+input:invalid[focused="true"] {
+  border: 1px solid red;
+}
+
+input:invalid[focused="true"] ~ span {
+  display: block;
+}
