@@ -8,6 +8,8 @@ import ForgetPassword from './pages/Forget-Password/ForgetPassword';
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import NotFound from './pages/NotFound/NotFound';
+import ProductDetails from "./pages/ProductDetails/ProductDetails";
+import ProductList from "./pages/ProductList/ProductList";
 import Register from './pages/Register/Register';
 import ShopLocation from "./pages/ShopLocation/ShopLocation";
 import TrackOrder from "./pages/TrackOrder/TrackOrder";
@@ -32,6 +34,8 @@ function App() {
             <Route path ='/cart' element={<Cart/>}></Route>
             <Route path ='/watch-list' element={<WatchList/>}></Route>
             <Route path ='/forget-password' element={<ForgetPassword/>}></Route>
+            <Route path ='/all-products' element={<ProductList/>}></Route>
+            <Route path ='/product-details/:id' element={<ProductDetails/>}></Route>
             <Route
             path="/user-profile"
             element={

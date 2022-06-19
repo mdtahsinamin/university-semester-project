@@ -1,38 +1,91 @@
-import React from 'react';
-import headPhone from "../../assets/headphone.webp";
-import Laptop from "../../assets/laptop.jpg";
-import smartphone from "../../assets/smartphone.jpg";
-import CardProduct from './CardProduct';
-const Product = () => {
+import { BsSearch } from 'react-icons/bs';
+import { FiHeart } from 'react-icons/fi';
+import { MdAddShoppingCart } from 'react-icons/md';
+import styled from "styled-components";
 
-    let myProduct = [
-            {
-                id: 1,
-            name : 'Laptops',
-            img: Laptop,
-            },
-            {
-                id: 2,
-                name : 'Headphones',
-                img:headPhone
-            },
-            {
-                id: 3,
-                    name : 'Smartphones',
-                    img: smartphone
-            }
-    ]
+const Info = styled.div`
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+  cursor: pointer;
+`;
 
+const Container = styled.div`
+  flex: 1;
+  margin: 5px;
+  min-width: 280px;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5fbfd;
+  position: relative;
+  border-radius: 1rem;
+
+  &:hover ${Info}{
+    opacity: 1;
+    border-radius: 1rem;
+  }
+`;
+
+const Circle = styled.div`
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+`;
+
+const Image = styled.img`
+  height: 75%;
+  z-index: 2;
+`;
+
+const Icon = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  transition: all 0.5s ease;
+  &:hover {
+    background-color: #e9f5f5;
+    transform: scale(1.1);
+  }
+`;
+
+
+const Product = ({product}) => {
+    console.log(product);
     return (
-        <div className ="container mt-5">
-            <div className="row">
-              {
-                myProduct.map(product => 
-                    <CardProduct key={product.id} product ={product}></CardProduct>
-                )
-                }
-            </div>
-          
+        <div>
+             <Container>
+            <Circle />
+                <Image src={product.img} />
+            <Info>
+                <Icon>
+                < MdAddShoppingCart/>
+                </Icon>
+                <Icon>
+                <BsSearch />
+                </Icon>
+                <Icon>
+                <FiHeart />
+                </Icon>
+            </Info>
+    </Container>
         </div>
     );
 };

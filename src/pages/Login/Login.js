@@ -16,7 +16,7 @@ import useStoreToken from "../../hooks/useStoreToken";
 const Login = () => {
   const [signInWithGoogle, user] = useSignInWithGoogle(auth);
   const [signInWithFacebook, fUser, fError] = useSignInWithFacebook(auth);
-
+  const [provider, setProvider] = useState();
   const {
     register,
     handleSubmit,
@@ -29,7 +29,7 @@ const Login = () => {
 
   // social login
 
-   const token = useStoreToken(user || fUser);
+   const token = useStoreToken(user || fUser , );
 
     useEffect( async ()=>{
       try {
@@ -177,106 +177,3 @@ const Login = () => {
 };
 
 export default Login;
-
-/*
-
- <div className="container-xxl">
-            <div className="authentication-wrapper authentication-basic container-p-y">
-                <div className="authentication-inner">
-                
-                <div className="card">
-                    <div className="card-body">
-                    
-                    <div className="app-brand justify-content-center">
-                       
-                    </div>
-                    <h4 className="mb-2">Welcome to E-SHOP! 👋</h4>
-                    <p className="mb-4">Please sign-in to your account and start the adventure</p>
-
-                    <form onSubmit={e => e.preventDefault()}>
-                        <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email or Username</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="email"
-                            name="email-username"
-                            placeholder="Enter your email or username"
-                            autoFocus
-                            {...register('email', {
-                                required: 'Email is required',
-                                pattern: {
-                                    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                    message: 'Please enter a valid email',
-                                },
-                            })}
-                        required/>
-                        </div>
-                        {errors.email && <p className='error-message'>{errors.email.message}</p>}
-                        <div className="mb-3 form-password-toggle">
-                        <div className="d-flex justify-content-between">
-                            <label className="form-label" htmlFor="password">Password</label>
-                            <small>Forgot Password?</small>
-                        </div>
-                        <div className="input-group input-group-merge">
-                            <input
-                            type="password"
-                            id="password"
-                            className="form-control"
-                            name="password"
-                            aria-describedby="password"
-
-                            {...register('password',{
-                                required: "You must specify a password",
-                                minLength: {
-                                  value: 8,
-                                  message: "Password must have at least 8 characters"
-                                }
-                              })}
-
-                           required />
-                          
-                        </div>
-                        {errors.password && <p className='error-message'>{errors.password.message}</p>}
-                        </div>
-                        <div className="mb-3">
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="remember-me" />
-                            <label className="form-check-label" htmlFor="remember-me"> Remember Me </label>
-                        </div>
-                        </div>
-                        <div className="mb-3">
-                         <input type="submit" value="submit"  onClick={handleSubmit(onSubmit)}/>
-                        </div>
-                    </form>
-
-                    <p className="text-center">
-                        <span>New on our platform?</span>
-                        <Link to = '/register'>
-                          <span>Create an account</span>
-                        </Link>
-                    </p>
-                        
-                    </div>
-
-                    <div className="d-grid gap-2 mx-auto mb-3">
-                        <button className="btn btn-primary"  type="button" onClick={()=>{
-                            signInWithGoogle()
-                        }}>
-                            <FcGoogle/> Continue with Google
-                        </button>
-                        <button className="btn btn-primary" type="button" onClick={()=>{
-                            signInWithFacebook()
-                        }}>
-                            <FaFacebook/> Continue with Facebook
-                        </button>
-                    </div>
-                    
-                </div>
-                
-                </div>
-            </div>
-            </div>
-
-
-*/

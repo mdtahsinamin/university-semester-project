@@ -88,7 +88,7 @@ const NavBar = () => {
                     </Link>
                   </div> 
                    <div className="single-bar shopping">
-                    <Link to='/cart'> <FaOpencart /></Link>
+                    <Link to='/cart'> <FaOpencart className="icons"/></Link>
                    </div>
 
                   <div className="single-bar">
@@ -98,8 +98,9 @@ const NavBar = () => {
                     menuVariant="dark"
                     variant='light'
                     bg='light'
-                    title={ <FaUserAlt className="icons" />}
+                    title={ <FaUserAlt style={{color: '#3b44f6', fontSize :'20px'}}/>}
                     autoClose=''
+                    className=''
                     >
                       <div className="container user-profile bg-dark">
                            <div className="img-contain">

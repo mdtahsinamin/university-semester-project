@@ -1,7 +1,7 @@
-import React from 'react';
 import { Carousel } from 'react-bootstrap';
 import men from "../../assets/man.webp";
 import watch from "../../assets/watch-lover.webp";
+import './Slider.css';
 const Slick = () => {
   return (
   <div className ="container-fluid mt-3 w-100">
@@ -14,6 +14,11 @@ const Slick = () => {
         src={men}
         alt="Third slide"
       />
+      <div className="some-info">
+           <h3 className='beats-solo'>Fashion</h3>
+           <h1 className='container-h1'>Men Fashion</h1>
+           <button>SHOP NOW</button>
+      </div>
     </Carousel.Item>
 
     <Carousel.Item>
