@@ -1,22 +1,35 @@
-import { CgRemove } from 'react-icons/cg';
-import { GrAddCircle } from 'react-icons/gr';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Rating } from '@mui/material';
+import Button from '@mui/material/Button';
+import { Fragment, useEffect, useState } from 'react';
+import { useAlert } from 'react-alert';
+import Carousel from 'react-material-ui-carousel';
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import Footer from '../../components/Footer/Footer';
-import NavBar from '../../components/NavBar/NavBar';
-import Newsletter from '../../components/Newsletter/Newsletter';
-
+import Footer from "../../components/Footer/Footer";
+import NavBar from "../../components/NavBar/NavBar";
+import Newsletter from "../../components/Newsletter/Newsletter";
+import ReviewCard from '../../components/Reviews/ReviewCard';
+import { addItemToCart } from '../../redux/actions/CartActions';
+import { clearErrors, getProductDetails, newReview } from '../../redux/actions/ProductActions';
+import { NEW_REVIEW_RESET } from '../../redux/constants/ProductConstants';
 import { mobile } from "../../styles/responsive";
-
+import Loader from './../../components/Loader/Loader';
+import './ProducDetails.css';
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
-  ${mobile({ padding: "10px", flexDirection:"column" })}
+  ${mobile({ padding: "10px", flexDirection: "column" })}
 `;
 
 const ImgContainer = styled.div`
   flex: 1;
+  justify-content: center;
+  align-items: center
 `;
 
 const Image = styled.img`
@@ -104,73 +117,228 @@ const Amount = styled.span`
   margin: 0px 5px;
 `;
 
-const Button = styled.button`
+const Buttons = styled.button`
   padding: 15px;
   border: 2px solid teal;
   background-color: white;
   cursor: pointer;
   font-weight: 500;
 
-  &:hover{
-      background-color: #f8f4f4;
+  &:hover {
+    background-color: #f8f4f4;
   }
 `;
 
-const ProductDetails = () => {
+const ProductDetails = ({}) => {
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  let {id} = useParams();
+  const [open, setOpen] = useState(false);
+  const [ratings, setRatings] = useState(0);
+  const [comment, setComment] = useState("");
+
+  const [quantity, setQuantity] = useState(1);
+
+  const {products,loading, error,rating} = useSelector((state) => state.productDetails);
+  const { success, error: reviewError } = useSelector((state) => state.newReview);
+  
+  const options = {
+    size: "large",
+    value: products.ratings,
+    readOnly: true,
+    precision: 0.5,
+  };
+
+  const increaseQuantity = () =>{
+     if(products.stock<=quantity) return;
+     const qty = quantity + 1; 
+     setQuantity(qty);
+  }
+  const decreaseQuantity = () =>{
+    if(quantity <= 1) return;
+    const qty = quantity - 1; 
+    setQuantity(qty);
+  }
+
+  const addToCartHandler = () =>{
+     dispatch(addItemToCart(id,quantity));
+     alert.success("Item Add successfully");
+  }
+
+  const submitReviewToggle = () => {
+    open ? setOpen(false) : setOpen(true);
+  };
+
+  const reviewSubmitHandler = () => {
+    const myForm = new FormData();
+
+    myForm.set("rating", ratings);
+    myForm.set("comment", comment);
+    myForm.set("productId", id);
+
+    dispatch(newReview(myForm));
+
+    setOpen(false);
+  };
+
+
+  useEffect(() =>{
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    if (reviewError) {
+      alert.error(reviewError);
+      dispatch(clearErrors());
+    }
+    if (success) {
+      alert.success("Review Submitted Successfully");
+      dispatch({ type: NEW_REVIEW_RESET });
+    }
+
+    dispatch(getProductDetails(id));
+    window.scrollTo(0, 0);
+  },[dispatch,id,alert,error,reviewError,success])
+
   return (
-    <>
-    <NavBar></NavBar>
-    <Container>
-      <Wrapper>
-        <ImgContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
-        </ImgContainer>
-        <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
-          </Desc>
-          <Price>$ 20</Price>
-          <FilterContainer>
-            <Filter>
-              <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
-            </Filter>
-            <Filter>
-              <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-              </FilterSize>
-            </Filter>
-          </FilterContainer>
-          <AddContainer>
-            <AmountContainer>
-              <CgRemove />
-              <Amount>1</Amount>
-              <GrAddCircle />
-            </AmountContainer>
-            <Button>ADD TO CART</Button>
-          </AddContainer>
-        </InfoContainer>
-      </Wrapper>
-      <Newsletter />
-    </Container>
-      <hr/>
-        <div className="container offset-sm-1">
-         <Footer/>  
-      </div>  
-    </>
+    <Fragment>
+      { loading ? <Loader/>:  <Fragment>
+          <NavBar></NavBar>
+          <Container>
+            <Wrapper>
+              <ImgContainer>
+                  <Carousel>
+                  {products.images &&
+                   products.images.map((item, i) => (
+                    <img
+                      className="CarouselImage"
+                      key={i}
+                      src={item.url}
+                      alt={`${i} Slide`}
+                    />
+                  ))}                 
+                  </Carousel>
+              </ImgContainer>
+              <InfoContainer>
+                <Title>{products.title}</Title>
+                <Desc>
+                  {products.desc}
+                </Desc>
+               { products && <Price>TK : {products.price} </Price> }
+                <div className="rating d-flex">
+                   <div>
+                       <Rating {...options} /> 
+                   </div>
+                   <div className='mt-3 mx-auto'>
+                     {products && <span> Reviews:{ products.numOfReviews}</span>}
+                   </div>
+                   <button onClick={submitReviewToggle} className="submitReview">
+                    Submit Review
+                   </button>
+                </div>
+    
+                <div>
+                  {
+                   products && <p>
+                    Status:
+                    <b className={products.stock < 1 ? "text-danger" : "text-success"}>
+                      {products.stock < 1 ? "OutOfStock" : "InStock"}
+                    </b>
+                   </p>
+                  }
+                </div>
+    
+                <FilterContainer>
+                  <Filter>
+                    <FilterTitle>Color</FilterTitle>
+                    <FilterColor color="black" />
+                    <FilterColor color="darkblue" />
+                    <FilterColor color="gray" />
+                  </Filter>
+                </FilterContainer>
+                <AddContainer>
+                  <AmountContainer>
+                    <RemoveCircleOutlineIcon role="button" onClick={decreaseQuantity}/>
+                      <Amount>{quantity}</Amount>
+                    <AddCircleOutlineIcon role="button" onClick={increaseQuantity}/>
+                  </AmountContainer>
+                  <Buttons
+                   disabled={products.stock < 1 ? true: false }
+                   onClick={addToCartHandler}
+                   >ADD TO CART</Buttons>
+                </AddContainer>
+              </InfoContainer>
+            </Wrapper>
+             <div className ='Review-section'>
+                <h3 className="reviewsHeading">REVIEWS</h3>
+                <Dialog
+                aria-labelledby="simple-dialog-title"
+                open={open}
+                onClose={submitReviewToggle}
+              >
+              <DialogTitle>Submit Review</DialogTitle>
+              <DialogContent className="submitDialog">
+              <div className ='ratings'>
+                <Rating
+                  onChange={(e) => setRatings(e.target.value)}
+                  value={ratings}
+                  name="size-large" 
+                  size="large"
+                />
+              </div>
+              <textarea
+                className="submitDialogTextArea"
+                cols="30"
+                rows="5"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              ></textarea>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={submitReviewToggle} color="secondary" variant="contained">
+                Cancel
+              </Button>
+              <Button onClick={reviewSubmitHandler} color="primary" variant="contained">
+                Submit
+              </Button>
+            </DialogActions>
+
+            </Dialog>
+            {products.reviews && products.reviews[0] ? (
+            <div className="reviews">
+              {products.reviews &&
+                products.reviews.map((review) => (
+                  <ReviewCard key={review._id} review={review} />
+                ))}
+            </div>
+          ) : (
+            <p className="noReviews">No Reviews Yet</p>
+          )}
+             </div>
+            <Newsletter />
+          </Container>
+          <hr />
+          <div className="container offset-sm-1">
+            <Footer />
+          </div>
+        </Fragment>
+      }
+    </Fragment>
   );
 };
 
 export default ProductDetails;
+
+
+/*
+product.images &&
+                  product.images.map((item, i) => (
+                    <img
+                      className="CarouselImage"
+                      key={i}
+                      src={item.url}
+                      alt={`${i} Slide`}
+                    />
+                  ))
+
+*/

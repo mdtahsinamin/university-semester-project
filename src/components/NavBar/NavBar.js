@@ -1,29 +1,74 @@
-import { useContext } from 'react';
-import { Button, Dropdown, DropdownButton, Form, FormControl } from 'react-bootstrap';
-import { FaCarSide, FaOpencart, FaRegistered, FaUserAlt } from "react-icons/fa";
-import { FiHeart, FiLogOut } from "react-icons/fi";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Badge } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { useState } from 'react';
+import { Form } from "react-bootstrap";
+import toast, { Toaster } from 'react-hot-toast';
+import { FaCarSide, FaRegistered } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
 import { IoIosLogIn, IoMdCall } from "react-icons/io";
 import { MdLocationPin } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
+import { logout } from "../../redux/actions/UserActions";
 import TopBar from "../TopBar/TopBar";
-import { EshopUser } from './../../App';
-import useAvailable from './../../hooks/useAvailable';
+import useAvailable from "./../../hooks/useAvailable";
 import "./NavBar.css";
 const NavBar = () => {
-  /* const { register, handleSubmit} = useForm();
-    const onSubmit = data => console.log(data);*/
+  const {user, loading, error, isAuthenticated } = useSelector((state) => state.user);
+  
+  const dispatch = useDispatch();
 
-    const [loginUser , setLoginUser] = useContext(EshopUser)
+  const navigate = useNavigate();
+  const {cartItems} = useSelector((state)=> state.cart);
 
-    console.log(loginUser);
+  const notify = (value) => toast.error(value);
+  const success = () => toast.success('login success');
 
-    const available =  useAvailable();
+  const handleLogout = () => {
+    dispatch(logout())
+    localStorage.clear();
+    if(error){
+      notify(error);
+    }
+    else{
+      success();
+      navigate("/");
+    }
+  };
 
+  const available = useAvailable();
+  console.log(available);
+
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   return (
     <>
-      <TopBar></TopBar>
+     <TopBar></TopBar>
       <div className="header-bot">
         <div className="header-bot-inner-withThreeInfo-header-mid container-fluid">
           <div className="row">
@@ -43,17 +88,24 @@ const NavBar = () => {
                 <li>
                   <IoMdCall className="icons" /> 01780256961
                 </li>
-                <Link to="/login">
-                  {available  ? <li>
+                {isAuthenticated ? (
+                  <li type="button" onClick={handleLogout}>
                     <FiLogOut className="icons" /> Logout
-                  </li> : <li>
-                    <IoIosLogIn className="icons" /> Login
-                  </li>}
-                </Link>
+                  </li>
+                ) : (
+                  <Link to="/login">
+                    <li>
+                      <IoIosLogIn className="icons" /> Login
+                    </li>
+                  </Link>
+                )}
+
                 <Link to="/register">
-                  {!available && <li>
-                    <FaRegistered className="icons" /> Register
-                  </li>}
+                  {!isAuthenticated && (
+                    <li>
+                      <FaRegistered className="icons" /> Register
+                    </li>
+                  )}
                 </Link>
               </ul>
             </div>
@@ -63,67 +115,86 @@ const NavBar = () => {
           <div className="container">
             <div className="row">
               <div className="col-lg-2 col-md-3 col-12 mr-1">
-                <Link to ='/'>
-                 <img src={Logo} alt="E-shop" />
+                <Link to="/">
+                  <img src={Logo} alt="E-shop" />
                 </Link>
               </div>
               <div className="col-lg-6 col-md-7 col-12">
                 <div className="search-box">
-                <Form className="d-flex">
-                <FormControl
-                  type="search"
-                  placeholder="Search"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-success">Search</Button>
-              </Form>
+                  <Form className="d-flex"></Form>
                 </div>
               </div>
               <div className="col-lg-2 col-md-2 col-12">
                 <div className="right-bar d-flex justify-content-between mt-1">
                   <div className="single-bar">
                     <Link to="/watch-list">
-                      <FiHeart className="icons"/>
+                      <Badge badgeContent={4} color="secondary">
+                          <FavoriteBorderIcon color="action" sx={{width: 30, height: 40}} />
+                       </Badge>
                     </Link>
-                  </div> 
-                   <div className="single-bar shopping">
-                    <Link to='/cart'> <FaOpencart className="icons"/></Link>
-                   </div>
+                  </div>
+                  <div className="single-bar shopping">
+                    <Link to="/cart">
+                      <Badge badgeContent={cartItems.length} color="secondary">
+                        <AddShoppingCartIcon color="action" sx={{width: 30, height: 40}}/>
+                      </Badge>
+                    </Link>
+                  </div>
 
                   <div className="single-bar">
-                  <Dropdown>
-                  <DropdownButton
-                    id="dropdown-button-dark-example2"
-                    menuVariant="dark"
-                    variant='light'
-                    bg='light'
-                    title={ <FaUserAlt style={{color: '#3b44f6', fontSize :'20px'}}/>}
-                    autoClose=''
-                    className=''
-                    >
-                      <div className="container user-profile bg-dark">
-                           <div className="img-contain">
-                             {loginUser.user?.picture  && <img src={loginUser.user?.picture} alt={loginUser.user?.picture} className= 'rounded-circle'/> 
-                             }
-                           </div>
-                      </div> 
-
-                    <div className="text-center">
-                      {loginUser.user?.name &&  <p className='text-white user-name'>{loginUser.user?.name}</p>}
-                    </div>
-                    <div className="view-profile offset-sm-1">
-                    {loginUser.user && <Link to='/user-profile'>
-                          <button className="btn btn-rounded text-white view-btn">View  Profile</button>  
-                         </Link>
-                    }
-                    </div>
-                  </DropdownButton>
-                  </Dropdown>
+                    <Box sx={{ flexGrow: 0 }}>
+                      <Tooltip title="Open settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    {isAuthenticated && <Avatar alt="Remy Sharp" src={user.picture.url}/>}
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                        sx={{ mt: "45px" }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                          vertical: "top",
+                          horizontal: "right"
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                          vertical: "top",
+                          horizontal: "right"
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}>
+                        <MenuItem  onClick={handleCloseUserMenu}>
+                           {(isAuthenticated && user.role==='admin') && <Link to='/admin/dashboard'>
+                            <Typography textAlign="center">Dashboard</Typography>
+                            </Link>
+                           }
+                        </MenuItem>
+                        <MenuItem  onClick={handleCloseUserMenu}>
+                           {isAuthenticated && <Link to='/user-profile'>
+                            <Typography textAlign="center">Account</Typography>
+                            </Link>
+                           }
+                        </MenuItem>
+                        <MenuItem  onClick={handleCloseUserMenu}>
+                           {isAuthenticated && <Link to='/my-orders'>
+                            <Typography textAlign="center">Order</Typography>
+                            </Link>
+                           }
+                        </MenuItem>
+                        <MenuItem  onClick={handleCloseUserMenu}>
+                           {isAuthenticated && <Typography 
+                           textAlign="center"
+                           onClick={handleLogout}
+                           >Logout</Typography>
+                           }
+                        </MenuItem>
+                      </Menu>
+                    </Box>
                   </div>
-                 
                 </div>
               </div>
+              <Toaster
+              position="bottom-center"/>
             </div>
           </div>
         </div>
@@ -133,3 +204,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+

@@ -1,22 +1,27 @@
-import { FaFacebook } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-
+import { useEffect } from "react";
+import { useAlert } from "react-alert";
 import { useSignInWithFacebook, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from 'react-hot-toast';
+import { FaFacebook } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Logo from "../../assets/logo.png";
+import AuthPic from "../../assets/undraw_mobile_encryption_re_yw3o.svg";
+import useStoreToken from "../../hooks/useStoreToken";
+import { clearErrors, login } from "../../redux/actions/UserActions";
 import { auth } from "./../../auth/firebase.config";
 import "./Login.css";
-
-import AuthPic from "../../assets/undraw_mobile_encryption_re_yw3o.svg";
-
-import { useEffect } from "react";
-import Logo from "../../assets/logo.png";
-import useStoreToken from "../../hooks/useStoreToken";
 
 const Login = () => {
   const [signInWithGoogle, user] = useSignInWithGoogle(auth);
   const [signInWithFacebook, fUser, fError] = useSignInWithFacebook(auth);
-  const [provider, setProvider] = useState();
+  const alert = useAlert();
+  const {loading, error,isAuthenticated} = useSelector((state)=> state.user);
+
+  const dispatch = useDispatch();
+  
   const {
     register,
     handleSubmit,
@@ -29,36 +34,29 @@ const Login = () => {
 
   // social login
 
-   const token = useStoreToken(user || fUser , );
-
-    useEffect( async ()=>{
-      try {
-          if(token){
-             navigate(from, { replace: true });
-          }
-      } catch (error) {
-          console.log(error);
-      }
-
-    },[user , fUser, token, from, navigate])
+   const token = useStoreToken(user || fUser);
 
 
-    // form login or user login
+   const notify = (value) => toast.error(value);
+   const success = () => toast.success('login success');
+
+   
+  
+    // form login or user login  navigate(from, { replace: true });
     const onSubmit = async data => {
-        fetch('http://localhost:5000/api/v1/user-login',{
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json()).then(getData => {
-             sessionStorage.setItem('accessToken', getData.accessToken);
-             navigate(from, { replace: true });
-        }).catch(error => {
-            console.log(error);
-        })
+      dispatch(login(data.email, data.password));
     };
+
+    useEffect(()=>{
+       if(isAuthenticated){
+        success()
+        navigate(from, { replace: true });
+       }
+       if(error){
+        alert.error(error)
+        dispatch(clearErrors())
+      }
+    },[dispatch,error,isAuthenticated])
 
   return (
     <main className="main auth-container">
@@ -66,7 +64,7 @@ const Login = () => {
         <div className="row justify-content-md-center">
           <div className="card-wrapper">
             <div className="brand text-center mb-3">
-              <img src={Logo} alt="" />
+             <Link to="/"> <img src={Logo} alt="" /> </Link>
             </div>
             <div className="card">
               <div className="card-body">
@@ -81,7 +79,7 @@ const Login = () => {
                       <button
                         className="btn btn-primary"
                         type="button"
-                        onClick={() => {
+                          onClick={() => {
                           signInWithGoogle();
                         }}>
                         <FcGoogle /> Continue with Google
@@ -166,6 +164,9 @@ const Login = () => {
                         </div>
                     </form>
                   </div>
+                  <Toaster
+                    position="bottom-center"
+                   />
                 </div>
               </div>
             </div>
@@ -177,3 +178,21 @@ const Login = () => {
 };
 
 export default Login;
+
+/*
+fetch('http://localhost:5000/api/v1/auth/user-login',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json()).then(getData => {
+             console.log(getData);
+             sessionStorage.setItem('accessToken', getData.accessToken);
+            
+        }).catch(error => {
+            console.log(error);
+        })
+
+*/

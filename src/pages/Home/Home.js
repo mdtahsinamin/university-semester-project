@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-import { EshopUser } from '../../App';
 import Feature from '../../components/Feature/Feature';
 import Footer from '../../components/Footer/Footer';
 import NewProduct from '../../components/NewProduct/NewProduct';
@@ -11,7 +9,7 @@ import Categories from './../../components/Category/Categories';
 import MiddleBar from './../../components/MiddleBar/MiddleBar';
 import NavBar from './../../components/NavBar/NavBar';
 const Home = () => {
-    const [loginUser , setLoginUser] = useContext(EshopUser);
+
     const newUser = useDecodeToken();
    
     if(newUser){

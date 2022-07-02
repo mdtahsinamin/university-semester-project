@@ -11,7 +11,6 @@ const Container = styled.div`
 
 `;
 
-console.log(categories);
 const Categories = () => {
     return (
         <div>

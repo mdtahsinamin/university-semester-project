@@ -1,26 +1,17 @@
-import jwt_decode from "jwt-decode";
-import { useContext } from "react";
+import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
-import { EshopUser } from "../../App";
-import useDecodeToken from "../../hooks/useDecodeToken";
 const PrivateRoute = ({children}) => {
   
-  const [loginUser , setLoginUser] = useContext(EshopUser)
-
+    const { user, loading, error, isAuthenticated } = useSelector((state) => state.user);
     const location = useLocation();
 
-    const newUser = useDecodeToken();
-   
-    if(newUser){
-      loginUser['user'] = {
-        ...loginUser['user'],
-        ...newUser
-      }
-    setLoginUser(loginUser);
-    }
-    
-    
-    const isLoggedIn = () =>{
+    return (isAuthenticated) ?  children : <Navigate to="/login" state={{ from: location }} replace/>;
+};
+
+export default PrivateRoute;
+
+/*
+ const isLoggedIn = () =>{
        const token = sessionStorage.getItem('accessToken');
         if(!token){
          return false;
@@ -37,10 +28,6 @@ const PrivateRoute = ({children}) => {
  
        return (isValid);
      }
-     
-    return (isLoggedIn()) ?  children : <Navigate to="/login" state={{ from: location }} replace/>;
-};
 
-export default PrivateRoute;
-
+*/
   

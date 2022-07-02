@@ -1,0 +1,11 @@
+.category-link {
+  list-style: none;
+  color: rgba(0, 0, 0, 0.61);
+  font-size: 20px;
+  margin: 0.4vmax;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.category-link:hover {
+  color: tomato;
+}

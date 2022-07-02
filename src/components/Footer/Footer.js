@@ -1,9 +1,9 @@
 import { BsTelephoneFill } from 'react-icons/bs';
+import { CgCopyright } from 'react-icons/cg';
 import { FaInstagram, FaMapMarkerAlt } from 'react-icons/fa';
 import { GrTwitter } from 'react-icons/gr';
 import { IoMdMail } from 'react-icons/io';
 import { SiFacebook } from 'react-icons/si';
-
 import styled from "styled-components";
 import logo from "../../assets/logo.png";
 import { mobile } from "../../styles/responsive";
@@ -83,6 +83,7 @@ const Payment = styled.img`
 `;
 const Footer = () => {
     return (
+      <>
         <Container>
             <Left>
         <Logo>
@@ -131,10 +132,19 @@ const Footer = () => {
         </ContactItem>
         <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
       </Right>
-       <div className="develop">
-          
-       </div>
     </Container>
+
+    <div className="develop">
+       <p className='text-dark text-center'>Built by  
+       <span className='text-success'>
+        <a href="https://tahsin-portfolio.web.app/home" target="_blank" rel="noreferrer">
+               Muhammad Tahsin Amin
+        </a>
+        </span>
+        </p>
+       <p className='text-dark text-center'>Copyright <CgCopyright/> {(new Date()).getFullYear()}</p>
+     </div>
+    </>
     );
 };
 

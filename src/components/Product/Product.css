@@ -1,0 +1,16 @@
+.product-info {
+  position: absolute;
+  top: 55%;
+}
+.product-info h6 {
+  font-size: bold;
+}
+.paginationBox {
+  display: grid;
+  place-items: center;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}

@@ -1,0 +1,51 @@
+.sidebar {
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 0;
+  height: 122vh;
+  overflow: hidden;
+}
+
+.link {
+  font: 200 1rem;
+  padding: 2rem;
+  transition: all 0.5s;
+}
+.link:hover {
+  transform: scale(1.1);
+}
+
+.sidebar > a:first-child {
+  padding: 0;
+}
+.sidebar a {
+  text-decoration: none;
+  color: #1971c2;
+  font: 200 1rem;
+  padding: 2rem;
+  transition: all 0.5s;
+}
+.sidebar a:hover {
+  transform: scale(1.1);
+}
+.sidebar > a > img {
+  width: 60%;
+  margin: 0 20px;
+  transition: all 0.5s;
+}
+.sidebar > a > img:hover {
+  filter: drop-shadow(0 0 10px tomato);
+}
+
+.sidebar a > P {
+  display: flex;
+  align-items: center;
+}
+.sidebar a > p > svg {
+  margin-right: 0.5rem;
+}
+
+.MuiTypography-root {
+  background-color: #fff !important;
+}

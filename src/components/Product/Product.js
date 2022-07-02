@@ -1,8 +1,10 @@
-import { BsSearch } from 'react-icons/bs';
-import { FiHeart } from 'react-icons/fi';
-import { MdAddShoppingCart } from 'react-icons/md';
+import { Rating } from '@mui/material';
+import { BsSearch } from "react-icons/bs";
+import { FiHeart } from "react-icons/fi";
+import { MdAddShoppingCart } from "react-icons/md";
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
-
+import "./Product.css";
 const Info = styled.div`
   opacity: 0;
   width: 100%;
@@ -31,7 +33,7 @@ const Container = styled.div`
   position: relative;
   border-radius: 1rem;
 
-  &:hover ${Info}{
+  &:hover ${Info} {
     opacity: 1;
     border-radius: 1rem;
   }
@@ -66,28 +68,47 @@ const Icon = styled.div`
   }
 `;
 
+const Product = ({ product }) => {
+  const option = {
+    size: "small",
+    value: product.ratings,
+    readOnly: true,
+    precision: 0.5,
+  };
 
-const Product = ({product}) => {
-    console.log(product);
-    return (
-        <div>
-             <Container>
-            <Circle />
-                <Image src={product.img} />
-            <Info>
-                <Icon>
-                < MdAddShoppingCart/>
-                </Icon>
-                <Icon>
-                <BsSearch />
-                </Icon>
-                <Icon>
-                <FiHeart />
-                </Icon>
-            </Info>
-    </Container>
-        </div>
-    );
+  const {_id} = product
+
+  return (
+    <div>
+      <Link to={`/product-details/${_id}`}>
+      <Container>
+        <Circle />
+        <Image src={product.images[0].url}  alt={product.title} />
+        <Info>
+          <Icon>
+            <MdAddShoppingCart />
+          </Icon>
+          <Icon>
+            <BsSearch />
+          </Icon>
+          <Icon>
+            <FiHeart />
+          </Icon>
+        </Info>
+        <Info>
+          <div className="product-info">
+            <h6 className="text-white mt-3">{product.title}</h6>
+            <h6 className="text-warning">Tk : {product.price}</h6>
+            <div className="rating">
+             <Rating {...option} /> <br/>
+             <span>Reviews : {product.numOfReviews}</span>
+            </div>
+          </div>
+        </Info>
+      </Container>
+    </Link>
+    </div>
+  );
 };
 
 export default Product;
