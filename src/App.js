@@ -45,7 +45,7 @@ function App() {
    const [stripeApiKey, setStripeApiKey] = useState('');
 
    async function getStripApiKey() {
-      const {data} =  await axios.get('https://e-shop-47.herokuapp.com/api/v1/payment/stripe-api-key')
+      const {data} =  await axios.get('/api/v1/payment/stripe-api-key',{ withCredentials: true })
       setStripeApiKey(data.stripeApiKey)
    }
 
@@ -92,9 +92,6 @@ function App() {
               </PrivateRoute>
                </Elements>}>
               </Route>
-
-              
-
             <Route 
              path ='/success'
              element={

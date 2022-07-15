@@ -21,10 +21,10 @@ export const getProduct = (keyword="",currentPage=1, price=[0,25000],cate,rating
             type:  ALL_PRODUCT_REQUEST
         })
 
-        let url = `https://e-shop-47.herokuapp.com/api/v1/product/get-product?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${rating}`;
+        let url = `http://localhost:5000/api/v1/product/get-product?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${rating}`;
     
         if(cate){
-            url=`https://e-shop-47.herokuapp.com/api/v1/product/get-product?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${cate}&ratings[gte]=${rating}`;
+            url=`http://localhost:5000/api/v1/product/get-product?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${cate}&ratings[gte]=${rating}`;
         }
 
         const {data} = await axios.get(url);
@@ -46,7 +46,7 @@ export const getAdminProduct = () => async (dispatch) => {
     try {
       dispatch({ type: ADMIN_PRODUCT_REQUEST });
   
-      const { data } = await axios.get("https://e-shop-47.herokuapp.com/api/v1/product/admin/get-products");
+      const { data } = await axios.get("/api/v1/product/admin/get-products",{ withCredentials: true });
   
       dispatch({
         type: ADMIN_PRODUCT_SUCCESS,
@@ -66,7 +66,7 @@ export const getProductDetails = (id) => async(dispatch)=>{
             type: PRODUCT_DETAILS_REQUEST
         })
 
-        const {data} = await axios.get(`https://e-shop-47.herokuapp.com/api/v1/product/${id}`);
+        const {data} = await axios.get(`http://localhost:5000/api/v1/product/${id}`);
 
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,
@@ -91,9 +91,9 @@ export const createProduct = (productData) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `https://e-shop-47.herokuapp.com/api/v1/product/admin/new-product`,
+      `/api/v1/product/admin/new-product`,
       productData,
-      config
+      config,
     );
     console.log(data);
     dispatch({
@@ -142,7 +142,7 @@ export const updateProduct = (id, productData) => async (dispatch) => {
     const { data } = await axios.put(
       `/api/v1/product/admin/${id}`,
       productData,
-      config
+      config,
     );
 
     dispatch({
@@ -162,7 +162,7 @@ export const getAllReviews = (id) => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
-    const { data } = await axios.get(`https://e-shop-47.herokuapp.com/api/v1/product/reviews?id=${id}`);
+    const { data } = await axios.get(`/api/v1/product/reviews?id=${id}`);
 
     dispatch({
       type: ALL_REVIEW_SUCCESS,
@@ -182,7 +182,7 @@ export const deleteReviews = (reviewId, productId) => async (dispatch) => {
     dispatch({ type: DELETE_REVIEW_REQUEST });
 
     const { data } = await axios.delete(
-      `https://e-shop-47.herokuapp.com/api/v1/product/reviews?id=${reviewId}&productId=${productId}`
+      `/api/v1/product/reviews?id=${reviewId}&productId=${productId}`
     );
 
     dispatch({
@@ -203,7 +203,7 @@ export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-    const { data } = await axios.delete(`https://e-shop-47.herokuapp.com/api/v1/product/admin/${id}`);
+    const { data } = await axios.delete(`/api/v1/product/admin/${id}`);
 
     dispatch({
       type: DELETE_PRODUCT_SUCCESS,

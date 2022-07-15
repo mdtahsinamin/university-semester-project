@@ -98,7 +98,7 @@ const DashBoard = () => {
 
     const getStats = async () => {
       try {
-        const res = await axios.get("https://e-shop-47.herokuapp.com/api/v1/auth/stats");
+        const res = await axios.get("/api/v1/auth/stats",{ withCredentials: true });
          res.data.map((item) =>
           setUserStats((prev) => [
             ...prev,

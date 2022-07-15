@@ -19,8 +19,8 @@ const Success = () => {
   }, [dispatch, alert, error]);
 
   const createAndDownloadPdf = async () =>{
-     await axios.post('https://e-shop-47.herokuapp.com/create-pdf',orders)
-    .then(() => axios.get('https://e-shop-47.herokuapp.com/fetch-pdf', { responseType: 'blob' }))
+     await axios.post('/create-pdf',orders,)
+    .then(() => axios.get('/fetch-pdf',{ responseType: 'blob' }))
     .then((res) => {
       const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
       saveAs(pdfBlob, 'newPdf.pdf');
@@ -32,7 +32,7 @@ const Success = () => {
       <h2>Your Order has been Placed successfully </h2>
       <Link to="/my-orders">View Orders</Link>
       {
-       !loading && <button 
+      ( !loading && orders.length !==0) && <button 
        className="btn btn-primary"
        onClick={createAndDownloadPdf}
        >Download PDF</button>
