@@ -159,54 +159,53 @@ const RemoveButton = styled.button`
     background-color: #f8f4f4;
   }
 `;
-const CartCard = ({item,increaseQuantity,decreaseQuantity,deleteCartItems}) => {
-    
-  
+const CartCard = ({ item, increaseQuantity, decreaseQuantity, deleteCartItems }) => {
   return (
     <Fragment>
-        <Product>
-          <ProductDetail>
-            <Image src={item.image} />
-            <Details>
-
-             <Link to={`/product-details/${item.product}`}> 
+      <Product>
+        <ProductDetail>
+          <Image src={item.image} />
+          <Details>
+            <Link to={`/product-details/${item.product}`}>
               <ProductName>
-                  <b>Product:</b> {item.title}
+                <b>Product:</b> {item.title}
               </ProductName>
-              </Link>
-              <ProductId>
-                <b>ID:</b> {item.product}
-              </ProductId>
-              <ProductName>
-                <b>Price:</b> {item.price}
-              </ProductName>
-              <ProductColor color="black" />
-              <RemoveButton
-                onClick={()=>{
-                  deleteCartItems(item.product)
-                }}
-               >Remove</RemoveButton>
-            </Details>
-          </ProductDetail>
-          <PriceDetail>
-            <ProductAmountContainer>
-              <AddCircleIcon
-                 role="button" 
-                  onClick={()=>{
-                  increaseQuantity(item.product,item.quantity,item.stock)
-              }}/>
-              <ProductAmount>{item.quantity}</ProductAmount>
-              <RemoveCircleOutlineIcon 
-               role="button" 
-               onClick={()=>{
-                decreaseQuantity(item.product,item.quantity)
-               }}
-              />
-            </ProductAmountContainer>
-            <ProductPrice> ৳ {item.quantity * item.price}</ProductPrice>
-          </PriceDetail>
-        </Product>
-        <Hr />
+            </Link>
+            <ProductId>
+              <b>ID:</b> {item.product}
+            </ProductId>
+            <ProductName>
+              <b>Price:</b> {item.price}
+            </ProductName>
+            <ProductColor color="black" />
+            <RemoveButton
+              onClick={() => {
+                deleteCartItems(item.product);
+              }}>
+              Remove
+            </RemoveButton>
+          </Details>
+        </ProductDetail>
+        <PriceDetail>
+          <ProductAmountContainer>
+            <AddCircleIcon
+              role="button"
+              onClick={() => {
+                increaseQuantity(item.product, item.quantity, item.stock);
+              }}
+            />
+            <ProductAmount>{item.quantity}</ProductAmount>
+            <RemoveCircleOutlineIcon
+              role="button"
+              onClick={() => {
+                decreaseQuantity(item.product, item.quantity);
+              }}
+            />
+          </ProductAmountContainer>
+          <ProductPrice> ৳ {item.quantity * item.price}</ProductPrice>
+        </PriceDetail>
+      </Product>
+      <Hr />
     </Fragment>
   );
 };

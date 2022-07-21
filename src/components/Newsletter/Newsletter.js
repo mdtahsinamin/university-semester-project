@@ -1,4 +1,4 @@
-import { IoMdSend } from 'react-icons/io';
+import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
 import { mobile } from "../../styles/responsive";
 const Container = styled.div`
@@ -19,7 +19,6 @@ const Desc = styled.div`
   font-weight: 300;
   margin-bottom: 20px;
   ${mobile({ textAlign: "center" })}
-
 `;
 
 const InputContainer = styled.div`
@@ -45,23 +44,21 @@ const Button = styled.button`
   color: white;
 `;
 
-
-
 const Newsletter = () => {
-    return (
-       <div>
+  return (
+    <div>
       <Container>
-      <Title>Newsletter</Title>
-      <Desc>Get timely updates from your favorite products.</Desc>
-      <InputContainer>
-        <Input placeholder="Your email" />
-        <Button>
-          <IoMdSend />
-        </Button>
-      </InputContainer>
-        </Container>
-       </div>
-    );
+        <Title>Newsletter</Title>
+        <Desc>Get timely updates from your favorite products.</Desc>
+        <InputContainer>
+          <Input placeholder="Your email" />
+          <Button>
+            <IoMdSend />
+          </Button>
+        </InputContainer>
+      </Container>
+    </div>
+  );
 };
 
 export default Newsletter;

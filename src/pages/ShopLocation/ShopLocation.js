@@ -1,11 +1,11 @@
-import WorkingMap from './../../components/Map/WorkingMap';
+import WorkingMap from "./../../components/Map/WorkingMap";
 import "./ShopLocation.css";
 const ShopLocation = () => {
   return (
     <>
       <div className="content">
         <div className="container">
-          <h2 className='text-center text-white contact-us'>Contact Us</h2>
+          <h2 className="text-center text-white contact-us">Contact Us</h2>
           <div className="row align-items-stretch no-gutters contact-wrap">
             <div className="col-md-6">
               <div className="form">
@@ -93,7 +93,7 @@ const ShopLocation = () => {
               </div>
             </div>
             <div className="col-md-6">
-               <WorkingMap></WorkingMap>
+              <WorkingMap></WorkingMap>
             </div>
           </div>
         </div>

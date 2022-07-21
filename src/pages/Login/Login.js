@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useAlert } from "react-alert";
 import { useSignInWithFacebook, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import AuthPic from "../../assets/undraw_mobile_encryption_re_yw3o.svg";
 import useStoreToken from "../../hooks/useStoreToken";
@@ -18,45 +18,42 @@ const Login = () => {
   const [signInWithGoogle, user] = useSignInWithGoogle(auth);
   const [signInWithFacebook, fUser, fError] = useSignInWithFacebook(auth);
   const alert = useAlert();
-  const {loading, error,isAuthenticated} = useSelector((state)=> state.user);
+  const { loading, error, isAuthenticated } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-  
+
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm({});
 
-   const navigate = useNavigate();
-   const location = useLocation();
-   let from = location.state?.from?.pathname || "/";
+  const navigate = useNavigate();
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/";
 
   // social login
 
-   const token = useStoreToken(user || fUser);
+  const token = useStoreToken(user || fUser);
 
+  const notify = (value) => toast.error(value);
+  const success = () => toast.success("login success");
 
-   const notify = (value) => toast.error(value);
-   const success = () => toast.success('login success');
+  // form login or user login  navigate(from, { replace: true });
+  const onSubmit = async (data) => {
+    dispatch(login(data.email, data.password));
+  };
 
-   
-  
-    // form login or user login  navigate(from, { replace: true });
-    const onSubmit = async data => {
-      dispatch(login(data.email, data.password));
-    };
-
-    useEffect(()=>{
-       if(isAuthenticated){
-        success()
-        navigate(from, { replace: true });
-       }
-       if(error){
-        alert.error(error)
-        dispatch(clearErrors())
-      }
-    },[dispatch,error,isAuthenticated])
+  useEffect(() => {
+    if (isAuthenticated) {
+      success();
+      navigate(from, { replace: true });
+    }
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, error, isAuthenticated]);
 
   return (
     <main className="main auth-container">
@@ -64,7 +61,10 @@ const Login = () => {
         <div className="row justify-content-md-center">
           <div className="card-wrapper">
             <div className="brand text-center mb-3">
-             <Link to="/"> <img src={Logo} alt="" /> </Link>
+              <Link to="/">
+                {" "}
+                <img src={Logo} alt="" />{" "}
+              </Link>
             </div>
             <div className="card">
               <div className="card-body">
@@ -79,7 +79,7 @@ const Login = () => {
                       <button
                         className="btn btn-primary"
                         type="button"
-                          onClick={() => {
+                        onClick={() => {
                           signInWithGoogle();
                         }}>
                         <FcGoogle /> Continue with Google
@@ -127,7 +127,7 @@ const Login = () => {
 
                       <div className="mb-4 form-password-toggle">
                         <label className="form-label" htmlFor="password">
-                                Password
+                          Password
                         </label>
                         <div className="input-group input-group-merge">
                           <input
@@ -147,8 +147,8 @@ const Login = () => {
                           />
                         </div>
                         <div className="d-flex justify-content-between">
-                          <Link to='/forget-password'>
-                          <small>Forgot Password?</small>
+                          <Link to="/forget-password">
+                            <small>Forgot Password?</small>
                           </Link>
                         </div>
                         {errors.password && (
@@ -156,17 +156,16 @@ const Login = () => {
                         )}
                       </div>
                       <div className="mb-5 pt-3">
-                         <input 
-                          type="submit" 
+                        <input
+                          type="submit"
                           value="submit"
-                          className="submit-form"  
-                          onClick={handleSubmit(onSubmit)}/>
-                        </div>
+                          className="submit-form"
+                          onClick={handleSubmit(onSubmit)}
+                        />
+                      </div>
                     </form>
                   </div>
-                  <Toaster
-                    position="bottom-center"
-                   />
+                  <Toaster position="bottom-center" />
                 </div>
               </div>
             </div>

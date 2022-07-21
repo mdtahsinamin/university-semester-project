@@ -1,9 +1,9 @@
-import { BsTelephoneFill } from 'react-icons/bs';
-import { CgCopyright } from 'react-icons/cg';
-import { FaInstagram, FaMapMarkerAlt } from 'react-icons/fa';
-import { GrTwitter } from 'react-icons/gr';
-import { IoMdMail } from 'react-icons/io';
-import { SiFacebook } from 'react-icons/si';
+import { BsTelephoneFill } from "react-icons/bs";
+import { CgCopyright } from "react-icons/cg";
+import { FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
+import { GrTwitter } from "react-icons/gr";
+import { IoMdMail } from "react-icons/io";
+import { SiFacebook } from "react-icons/si";
 import styled from "styled-components";
 import logo from "../../assets/logo.png";
 import { mobile } from "../../styles/responsive";
@@ -69,7 +69,6 @@ const Right = styled.div`
   flex: 1;
   padding: 20px;
   ${mobile({ backgroundColor: "#fff8f8" })}
-
 `;
 
 const ContactItem = styled.div`
@@ -79,73 +78,74 @@ const ContactItem = styled.div`
 `;
 
 const Payment = styled.img`
-    width: 50%;
+  width: 50%;
 `;
 const Footer = () => {
-    return (
-      <>
-        <Container>
-            <Left>
-        <Logo>
+  return (
+    <>
+      <Container>
+        <Left>
+          <Logo>
             <img src={logo} alt="" />
-        </Logo>
-        <Desc>
-           Good Product and Good Services
-        </Desc>
-        <SocialContainer>
-          <SocialIcon color="3B5999">
-            < SiFacebook/>
-          </SocialIcon>
-          <SocialIcon color="E4405F">
-            <FaInstagram />
-          </SocialIcon>
-          <SocialIcon color="55ACEE">
-            <GrTwitter/>
-          </SocialIcon>
-        </SocialContainer>
-      </Left>
-      <Center>
-        <Title>Useful Links</Title>
-        <List>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Man Fashion</ListItem>
-          <ListItem>Woman Fashion</ListItem>
-          <ListItem>Accessories</ListItem>
-          <ListItem>My Account</ListItem>
-          <ListItem>Order Tracking</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Terms</ListItem>
-        </List>
-      </Center>
-      <Right>
-        <Title>Contact</Title>
-        <ContactItem>
-          <FaMapMarkerAlt style={{marginRight:"10px"}}/> Dhaka, Bangladesh
-        </ContactItem>
-        <ContactItem>
-          <BsTelephoneFill style={{marginRight:"10px"}}/> +1 234 56 78
-        </ContactItem>
-        <ContactItem>
-          <IoMdMail style={{marginRight:"10px"}} /> contact@tahsin.dev
-        </ContactItem>
-        <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
-      </Right>
-    </Container>
+          </Logo>
+          <Desc>Good Product and Good Services</Desc>
+          <SocialContainer>
+            <SocialIcon color="3B5999">
+              <SiFacebook />
+            </SocialIcon>
+            <SocialIcon color="E4405F">
+              <FaInstagram />
+            </SocialIcon>
+            <SocialIcon color="55ACEE">
+              <GrTwitter />
+            </SocialIcon>
+          </SocialContainer>
+        </Left>
+        <Center>
+          <Title>Useful Links</Title>
+          <List>
+            <ListItem>Home</ListItem>
+            <ListItem>Cart</ListItem>
+            <ListItem>Man Fashion</ListItem>
+            <ListItem>Woman Fashion</ListItem>
+            <ListItem>Accessories</ListItem>
+            <ListItem>My Account</ListItem>
+            <ListItem>Order Tracking</ListItem>
+            <ListItem>Wishlist</ListItem>
+            <ListItem>Wishlist</ListItem>
+            <ListItem>Terms</ListItem>
+          </List>
+        </Center>
+        <Right>
+          <Title>Contact</Title>
+          <ContactItem>
+            <FaMapMarkerAlt style={{ marginRight: "10px" }} /> Dhaka, Bangladesh
+          </ContactItem>
+          <ContactItem>
+            <BsTelephoneFill style={{ marginRight: "10px" }} /> +1 234 56 78
+          </ContactItem>
+          <ContactItem>
+            <IoMdMail style={{ marginRight: "10px" }} /> contact@tahsin.dev
+          </ContactItem>
+          <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
+        </Right>
+      </Container>
 
-    <div className="develop">
-       <p className='text-dark text-center'>Built by  
-       <span className='text-success'>
-        <a href="https://tahsin-portfolio.web.app/home" target="_blank" rel="noreferrer">
-               Muhammad Tahsin Amin
-        </a>
-        </span>
+      <div className="develop">
+        <p className="text-dark text-center">
+          Built by
+          <span className="text-success">
+            <a href="https://tahsin-portfolio.web.app/home" target="_blank" rel="noreferrer">
+              Muhammad Tahsin Amin
+            </a>
+          </span>
         </p>
-       <p className='text-dark text-center'>Copyright <CgCopyright/> {(new Date()).getFullYear()}</p>
-     </div>
+        <p className="text-dark text-center">
+          Copyright <CgCopyright /> {new Date().getFullYear()}
+        </p>
+      </div>
     </>
-    );
+  );
 };
 
 export default Footer;

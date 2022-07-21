@@ -1,17 +1,16 @@
-
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import HomeIcon from '@mui/icons-material/Home';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import PersonIcon from '@mui/icons-material/Person';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import HomeIcon from "@mui/icons-material/Home";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import PersonIcon from "@mui/icons-material/Person";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { SpeedDialAction } from "@mui/lab";
 import { Backdrop, SpeedDial } from "@mui/material";
 import { Fragment, useState } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout } from '../../redux/actions/UserActions';
+import { logout } from "../../redux/actions/UserActions";
 import "./Header.css";
 
 const UserOptions = ({ user }) => {
@@ -23,30 +22,26 @@ const UserOptions = ({ user }) => {
   const dispatch = useDispatch();
 
   const options = [
-    { icon:  <HomeIcon />, name: "Home", func: home },
+    { icon: <HomeIcon />, name: "Home", func: home },
     { icon: <ListAltIcon />, name: "Orders", func: orders },
     { icon: <PersonIcon />, name: "Profile", func: account },
     {
-      icon: (
-        <ShoppingCartIcon
-          style={{ color: cartItems.length > 0 ? "tomato" : "unset" }}
-        />
-      ),
+      icon: <ShoppingCartIcon style={{ color: cartItems.length > 0 ? "tomato" : "unset" }} />,
       name: `Cart(${cartItems.length})`,
-      func: cart,
+      func: cart
     },
-    { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
+    { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser }
   ];
 
   if (user.role === "admin") {
     options.unshift({
       icon: <DashboardIcon />,
       name: "Dashboard",
-      func: dashboard,
+      func: dashboard
     });
   }
 
-  function home(){
+  function home() {
     history("/");
   }
 
@@ -76,7 +71,7 @@ const UserOptions = ({ user }) => {
         ariaLabel="SpeedDial tooltip example"
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        style={{ zIndex: "11" , width:'25px'}}
+        style={{ zIndex: "11", width: "25px" }}
         open={open}
         direction="down"
         className="speedDial"
@@ -86,8 +81,7 @@ const UserOptions = ({ user }) => {
             src={user.picture.url ? user.picture.url : "/Profile.png"}
             alt="Profile"
           />
-        }
-      >
+        }>
         {options.map((item) => (
           <SpeedDialAction
             key={item.name}

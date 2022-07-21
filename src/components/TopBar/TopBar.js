@@ -5,7 +5,7 @@ const TopBar = () => {
     <header>
       <div className="header-most-top">
         <p> E- Shop Zone Top Deals & Discounts</p>
-     </div>
+      </div>
     </header>
   );
 };

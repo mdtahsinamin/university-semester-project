@@ -1,7 +1,7 @@
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PersonIcon from '@mui/icons-material/Person';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import Button from '@mui/material/Button';
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import PersonIcon from "@mui/icons-material/Person";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import Button from "@mui/material/Button";
 import { Fragment, useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,23 +11,23 @@ import SideBar from "../../components/SideBar/SideBar";
 import { clearErrors, getUserDetails, updateUser } from "../../redux/actions/UserActions";
 import { UPDATE_USER_RESET } from "../../redux/constants/UserConstants";
 const UpdateUser = () => {
-     const dispatch = useDispatch();
-     const alert = useAlert();
-     const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const navigate = useNavigate();
 
-     const { loading, error, user } = useSelector((state) => state.userDetails);
+  const { loading, error, user } = useSelector((state) => state.userDetails);
 
   const {
     loading: updateLoading,
     error: updateError,
-    isUpdated,
+    isUpdated
   } = useSelector((state) => state.profile);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
 
-  const {id} = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     if (user && user._id !== id) {
@@ -65,19 +65,15 @@ const UpdateUser = () => {
 
     dispatch(updateUser(id, myForm));
   };
-    return (
-        <Fragment>
-
-<div className="dashboard">
+  return (
+    <Fragment>
+      <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
           {loading ? (
             <Loader />
           ) : (
-            <form
-              className="createProductForm"
-              onSubmit={updateUserSubmitHandler}
-            >
+            <form className="createProductForm" onSubmit={updateUserSubmitHandler}>
               <h1>Update User</h1>
 
               <div>
@@ -113,18 +109,15 @@ const UpdateUser = () => {
               <Button
                 id="createProductBtn"
                 type="submit"
-                disabled={
-                  updateLoading ? true : false || role === "" ? true : false
-                }
-              >
+                disabled={updateLoading ? true : false || role === "" ? true : false}>
                 Update
               </Button>
             </form>
           )}
         </div>
       </div>
-</Fragment>
-);
+    </Fragment>
+  );
 };
 
 export default UpdateUser;

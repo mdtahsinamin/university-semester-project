@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useAlert } from "react-alert";
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import { clearErrors, userRegister } from "../../redux/actions/UserActions";
@@ -12,15 +12,15 @@ const Register = () => {
   const [user, setUser] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [fileName , setFileName] = useState('Upload image');
-  const [file ,setFile] = useState('');
+  const [fileName, setFileName] = useState("Upload image");
+  const [file, setFile] = useState("");
   const alert = useAlert();
-   const notify = (value) => toast.error(value);
-   const success = () => toast.success('Register Completed');
-   
+  const notify = (value) => toast.error(value);
+  const success = () => toast.success("Register Completed");
+
   const dispatch = useDispatch();
-  const {loading, error,isAuthenticated} = useSelector((state)=> state.user);
-  
+  const { loading, error, isAuthenticated } = useSelector((state) => state.user);
+
   const {
     register,
     handleSubmit,
@@ -32,35 +32,33 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const onChange = async (event) =>{
+  const onChange = async (event) => {
     setFile(event.target.files[0]);
     setFileName(event.target.files[0].name);
-  }
+  };
 
   const onSubmit = async (data) => {
     const myForm = new FormData();
-    myForm.set('name', data.name);
-    myForm.set('email',data.email);
-    myForm.set('password',data.password);
-    myForm.set('picture',file);
-    
-   dispatch(userRegister(myForm))
-  
+    myForm.set("name", data.name);
+    myForm.set("email", data.email);
+    myForm.set("password", data.password);
+    myForm.set("picture", file);
+
+    dispatch(userRegister(myForm));
   };
 
-  useEffect(()=>{
-    if(isAuthenticated){
+  useEffect(() => {
+    if (isAuthenticated) {
       success();
-      navigate('/login');
+      navigate("/login");
     }
 
-    if(error){
-     notify(error)
-     dispatch(clearErrors());
+    if (error) {
+      notify(error);
+      dispatch(clearErrors());
     }
+  }, [isAuthenticated]);
 
-  },[isAuthenticated])
-  
   return (
     <main className="main">
       <div className="register-layout">
@@ -68,8 +66,8 @@ const Register = () => {
           <div className="row justify-content-md-center">
             <div className="card-wrapper col-12 col-md-4 mt-4">
               <div className="brand text-center mb-3">
-                <Link to='/'>
-                  <img src={Logo} alt="E-SHOP"/>
+                <Link to="/">
+                  <img src={Logo} alt="E-SHOP" />
                 </Link>
               </div>
               <div className="card">
@@ -113,7 +111,9 @@ const Register = () => {
                           required
                         />
                       </div>
-                      {errors.email && <span className="error-message">{errors.email.message}</span>}
+                      {errors.email && (
+                        <span className="error-message">{errors.email.message}</span>
+                      )}
 
                       <div className="form-row">
                         <div className="formInput col-md-6">
@@ -186,19 +186,22 @@ const Register = () => {
                           )}
                         </div>
                         {errors.password_confirmation && (
-                          <span className="error-message">{errors.password_confirmation.message}</span>
+                          <span className="error-message">
+                            {errors.password_confirmation.message}
+                          </span>
                         )}
                       </div>
                       <label htmlFor="formFile">Profile Picture</label>
-                      <div className="formInput col-md-6 mb-3" id='registerImage'>
-                       <br />
-                       <input 
-                        type="file" 
-                        name="image" 
-                        id="file" 
-                        {...register("image")}
-                        onChange={onChange}
-                        required/>
+                      <div className="formInput col-md-6 mb-3" id="registerImage">
+                        <br />
+                        <input
+                          type="file"
+                          name="image"
+                          id="file"
+                          {...register("image")}
+                          onChange={onChange}
+                          required
+                        />
                         <label htmlFor="formFile">
                           <span>{fileName}</span>
                         </label>
@@ -222,9 +225,7 @@ const Register = () => {
           </div>
         </div>
       </div>
-      <Toaster
-        position="bottom-center"
-        />
+      <Toaster position="bottom-center" />
     </main>
   );
 };

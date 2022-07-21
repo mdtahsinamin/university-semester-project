@@ -1,7 +1,7 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import Button from '@mui/material/Button';
-import { DataGrid } from '@mui/x-data-grid';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Button from "@mui/material/Button";
+import { DataGrid } from "@mui/x-data-grid";
 import { Fragment, useEffect } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,8 +11,7 @@ import { clearErrors, deleteUser, getAllUsers } from "../../redux/actions/UserAc
 import { DELETE_USER_RESET } from "../../redux/constants/UserConstants";
 import "./AdminProductList.css";
 const UserList = () => {
-   
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const alert = useAlert();
 
@@ -20,11 +19,7 @@ const UserList = () => {
 
   const { error, users } = useSelector((state) => state.allUsers);
 
-  const {
-    error: deleteError,
-    isDeleted,
-    message,
-  } = useSelector((state) => state.profile);
+  const { error: deleteError, isDeleted, message } = useSelector((state) => state.profile);
 
   const deleteUserHandler = (id) => {
     dispatch(deleteUser(id));
@@ -57,13 +52,13 @@ const UserList = () => {
       field: "email",
       headerName: "Email",
       minWidth: 200,
-      flex: 1,
+      flex: 1
     },
     {
       field: "name",
       headerName: "Name",
       minWidth: 150,
-      flex: 0.5,
+      flex: 0.5
     },
 
     {
@@ -73,10 +68,8 @@ const UserList = () => {
       minWidth: 150,
       flex: 0.3,
       cellClassName: (params) => {
-        return params.getValue(params.id, "role") === "admin"
-          ? "greenColor"
-          : "redColor";
-      },
+        return params.getValue(params.id, "role") === "admin" ? "greenColor" : "redColor";
+      }
     },
 
     {
@@ -93,17 +86,13 @@ const UserList = () => {
               <EditIcon />
             </Link>
 
-            <Button
-              onClick={() =>
-                deleteUserHandler(params.getValue(params.id, "id"))
-              }
-            >
+            <Button onClick={() => deleteUserHandler(params.getValue(params.id, "id"))}>
               <DeleteIcon />
             </Button>
           </Fragment>
         );
-      },
-    },
+      }
+    }
   ];
 
   const rows = [];
@@ -114,16 +103,13 @@ const UserList = () => {
         id: item._id,
         role: item.role,
         email: item.email,
-        name: item.name,
+        name: item.name
       });
     });
 
-
-
-
-    return (
-        <Fragment>
-        <div className="dashboard">
+  return (
+    <Fragment>
+      <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
           <h1 id="productListHeading">ALL USERS</h1>
@@ -137,9 +123,8 @@ const UserList = () => {
           />
         </div>
       </div>
-            
-        </Fragment>
-    );
+    </Fragment>
+  );
 };
 
 export default UserList;

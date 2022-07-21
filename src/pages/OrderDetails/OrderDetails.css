@@ -68,6 +68,13 @@
   font: 100 1vmax;
   color: #5e5e5e;
 }
+.orderDetailsContainerBox > .greenColor {
+  color: green;
+}
+
+.orderDetailsContainerBox > .redColor {
+  color: green;
+}
 
 @media screen and (max-width: 600px) {
   .orderDetailsContainer > p {

@@ -1,4 +1,4 @@
-import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { Typography } from "@mui/material";
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import { addItemToCart, removeItemFormCart } from "../../redux/actions/CartActio
 import { mobile } from "../../styles/responsive";
 import Footer from "../Footer/Footer";
 import NavBar from "./../NavBar/NavBar";
-import './Cart.css';
+import "./Cart.css";
 import CartCard from "./CartCard";
 const Container = styled.div`
   margin: 0 0px 8.125rem 0px; /* top | right | bottom | left */
@@ -131,7 +131,7 @@ const Summary = styled.div`
   border: 0.5px solid lightgray;
   border-radius: 10px;
   padding: 20px;
-  height: 50vh ;
+  height: 50vh;
 `;
 
 const SummaryTitle = styled.h1`
@@ -169,109 +169,103 @@ const RemoveButton = styled.button`
 `;
 
 const Cart = () => {
-    
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   let from = "/shipping" || "/login";
 
-  const {cartItems} = useSelector((state)=> state.cart);
- 
+  const { cartItems } = useSelector((state) => state.cart);
 
-  const increaseQuantity = (id, quantity, stock) =>{
-     const newQuantity = quantity + 1;
-     if(stock<=quantity){
+  const increaseQuantity = (id, quantity, stock) => {
+    const newQuantity = quantity + 1;
+    if (stock <= quantity) {
       return;
-     }
-     dispatch(addItemToCart(id, newQuantity));
-  }
-
-  const decreaseQuantity = (id, quantity) =>{
-    if(quantity <= 1){
-      return;
-     }
-    const newQuantity = quantity - 1;
-    
+    }
     dispatch(addItemToCart(id, newQuantity));
- }
+  };
 
-  const deleteCartItems = (id) =>{
-    dispatch(removeItemFormCart(id))
-  }
+  const decreaseQuantity = (id, quantity) => {
+    if (quantity <= 1) {
+      return;
+    }
+    const newQuantity = quantity - 1;
 
+    dispatch(addItemToCart(id, newQuantity));
+  };
 
-  const totalPrice = cartItems.reduce((acc,item) =>acc + item.quantity * item.price, 0);
-  
-  const checkoutHandler = () =>{
-     navigate(from,{ replace: true })
-  }
+  const deleteCartItems = (id) => {
+    dispatch(removeItemFormCart(id));
+  };
 
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
 
-
+  const checkoutHandler = () => {
+    navigate(from, { replace: true });
+  };
 
   return (
     <Fragment>
       <NavBar></NavBar>
-      {
-        cartItems.length === 0 ? 
+      {cartItems.length === 0 ? (
         <div className="emptyCart">
-        <RemoveShoppingCartIcon />
-        <Typography>No Product in Your Cart</Typography>
-        <Link to="/all-products">View Products</Link>
-      </div>
-        :  
+          <RemoveShoppingCartIcon />
+          <Typography>No Product in Your Cart</Typography>
+          <Link to="/all-products">View Products</Link>
+        </div>
+      ) : (
         <Fragment>
-        <Container>
-        <Wrapper>
-          <Title>YOUR BAG</Title>
-          <Top>
-            <Link to='/all-products'><TopButton>CONTINUE SHOPPING</TopButton></Link>
-            <TopTexts>
-              <TopText>Shopping Bag(2)</TopText>
-              <TopText>Your Wishlist (0)</TopText>
-            </TopTexts>
-          </Top>
-          <Bottom>
-            <Info>
-            {
-              cartItems && cartItems.map((item, index) =>{
-                 return <CartCard  
-                  key={index} 
-                  item={item}
-                  increaseQuantity={increaseQuantity}
-                  decreaseQuantity={decreaseQuantity}
-                  deleteCartItems={deleteCartItems}
-                  />
-              })
-            }
-          </Info>
-            <Summary>
-              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-              <SummaryItem>
-                <SummaryItemText>Subtotal</SummaryItemText>
-                <SummaryItemPrice>৳
-                  {totalPrice} 
-                </SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem>
-                <SummaryItemText>Estimated Shipping</SummaryItemText>
-                <SummaryItemPrice>৳ 70</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem>
-                <SummaryItemText>Shipping Discount</SummaryItemText>
-                <SummaryItemPrice>৳ 70</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem type="total">
-                <SummaryItemText>Total</SummaryItemText>
-                <SummaryItemPrice>৳{totalPrice} </SummaryItemPrice>
-              </SummaryItem>
-              <Button onClick={checkoutHandler}>CHECKOUT NOW</Button>
-            </Summary>
-          </Bottom>
-        </Wrapper>
-      </Container>
-    </Fragment>
-      }
+          <Container>
+            <Wrapper>
+              <Title>YOUR BAG</Title>
+              <Top>
+                <Link to="/all-products">
+                  <TopButton>CONTINUE SHOPPING</TopButton>
+                </Link>
+                <TopTexts>
+                  <TopText>Shopping Bag(2)</TopText>
+                  <TopText>Your Wishlist (0)</TopText>
+                </TopTexts>
+              </Top>
+              <Bottom>
+                <Info>
+                  {cartItems &&
+                    cartItems.map((item, index) => {
+                      return (
+                        <CartCard
+                          key={index}
+                          item={item}
+                          increaseQuantity={increaseQuantity}
+                          decreaseQuantity={decreaseQuantity}
+                          deleteCartItems={deleteCartItems}
+                        />
+                      );
+                    })}
+                </Info>
+                <Summary>
+                  <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+                  <SummaryItem>
+                    <SummaryItemText>Subtotal</SummaryItemText>
+                    <SummaryItemPrice>৳{totalPrice}</SummaryItemPrice>
+                  </SummaryItem>
+                  <SummaryItem>
+                    <SummaryItemText>Estimated Shipping</SummaryItemText>
+                    <SummaryItemPrice>৳ 70</SummaryItemPrice>
+                  </SummaryItem>
+                  <SummaryItem>
+                    <SummaryItemText>Shipping Discount</SummaryItemText>
+                    <SummaryItemPrice>৳ 70</SummaryItemPrice>
+                  </SummaryItem>
+                  <SummaryItem type="total">
+                    <SummaryItemText>Total</SummaryItemText>
+                    <SummaryItemPrice>৳{totalPrice} </SummaryItemPrice>
+                  </SummaryItem>
+                  <Button onClick={checkoutHandler}>CHECKOUT NOW</Button>
+                </Summary>
+              </Bottom>
+            </Wrapper>
+          </Container>
+        </Fragment>
+      )}
       <hr />
       <div className="container offset-sm-1">
         <Footer />
@@ -281,7 +275,6 @@ const Cart = () => {
 };
 
 export default Cart;
-
 
 /*
 

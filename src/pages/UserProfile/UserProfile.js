@@ -10,22 +10,24 @@ const UserProfile = () => {
 
   return (
     <Fragment>
-        {
-           loading ? <Loader/>: <Fragment>
-             <div className="profileContainer">
-            <div className='mt-3'>
-                <div className="logo-section">
-                  <Link to="/">
-                    <img src={logo} alt="" />
-                  </Link>
-                </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <div className="profileContainer">
+            <div className="mt-3">
+              <div className="logo-section">
+                <Link to="/">
+                  <img src={logo} alt="" />
+                </Link>
+              </div>
               <h1>My Profile</h1>
               <Avatar
                 className="img"
                 alt="Remy Sharp"
                 src={user.picture.url}
                 sx={{ width: 300, height: 300 }}
-                />
+              />
               <Link to="/update/profile">Edit Profile</Link>
             </div>
             <div>
@@ -48,8 +50,8 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
-          </Fragment>
-        }
+        </Fragment>
+      )}
     </Fragment>
   );
 };

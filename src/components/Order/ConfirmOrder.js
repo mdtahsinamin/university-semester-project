@@ -1,4 +1,3 @@
-
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import MetaData from "../../components/MetaData/MetaData";
@@ -9,39 +8,38 @@ import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar/NavBar";
 import CheckoutSteps from "../../pages/Shipping/CheckoutSteps";
 const ConfirmOrder = () => {
-    const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-    const { user } = useSelector((state) => state.user);
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const subtotal = cartItems.reduce((acc, item) => acc + item.quantity * item.price,0)
-    
-    const shippingCharges = subtotal > 1000 ? 0 : 200;
+  const subtotal = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
 
-    const tax = subtotal * 0.18;
-  
-    const totalPrice = subtotal + tax + shippingCharges;
-  
-    const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
+  const shippingCharges = subtotal > 1000 ? 0 : 200;
 
-    const proceedToPayment = () => {
-        const data = {
-          subtotal,
-          shippingCharges,
-          tax,
-          totalPrice,
-        };
-    
-        sessionStorage.setItem("orderInfo", JSON.stringify(data));
-        navigate('/process/payment',{ replace: true });
-      };
+  const tax = subtotal * 0.18;
 
+  const totalPrice = subtotal + tax + shippingCharges;
 
-    return (
-        <Fragment>
-    <MetaData title='Confirm Order'/>
-    <NavBar/>
-    <CheckoutSteps activeStep={1}/>
+  const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
+
+  const proceedToPayment = () => {
+    const data = {
+      subtotal,
+      shippingCharges,
+      tax,
+      totalPrice
+    };
+
+    sessionStorage.setItem("orderInfo", JSON.stringify(data));
+    navigate("/process/payment", { replace: true });
+  };
+
+  return (
+    <Fragment>
+      <MetaData title="Confirm Order" />
+      <NavBar />
+      <CheckoutSteps activeStep={1} />
       <div className="confirmOrderPage">
         <div>
           <div className="confirmshippingArea mt-4">
@@ -68,9 +66,7 @@ const ConfirmOrder = () => {
                 cartItems.map((item) => (
                   <div key={item.product}>
                     <img src={item.image} alt="Product" />
-                    <Link to={`/product-details/${item.product}`}>
-                      {item.name}
-                    </Link>
+                    <Link to={`/product-details/${item.product}`}>{item.name}</Link>
                     <span>
                       {item.quantity} X ৳ {item.price} = <b>৳ {item.price * item.quantity}</b>
                     </span>
@@ -109,9 +105,8 @@ const ConfirmOrder = () => {
           </div>
         </div>
       </div>
-           
-        </Fragment>
-    );
+    </Fragment>
+  );
 };
 
 export default ConfirmOrder;

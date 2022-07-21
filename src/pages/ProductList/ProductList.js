@@ -1,12 +1,12 @@
-import { Slider } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Slider } from "@mui/material";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Footer from "../../components/Footer/Footer";
 import NavBar from "../../components/NavBar/NavBar";
 import { mobile } from "../../styles/responsive";
-import Newsletter from './../../components/Newsletter/Newsletter';
-import Products from './../../components/Product/Products';
-import './ProductList.css';
+import Newsletter from "./../../components/Newsletter/Newsletter";
+import Products from "./../../components/Product/Products";
+import "./ProductList.css";
 
 const Container = styled.div``;
 
@@ -38,8 +38,7 @@ const Select = styled.select`
 `;
 const Option = styled.option``;
 
-
-const Catagories =[
+const Catagories = [
   "Laptop",
   "Footwear",
   "Bottom",
@@ -53,16 +52,15 @@ const Catagories =[
 const ProductList = () => {
   const [price, setPrice] = useState([0, 25000]);
   const [cate, setCate] = useState("");
-  const [rating,setRating] = useState(0);
-  
+  const [rating, setRating] = useState(0);
+
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
   };
 
   const ratingHandler = (event, newRating) => {
-     setRating(newRating);
-  }
-
+    setRating(newRating);
+  };
 
   useEffect(() => {
     window.scrollTo({
@@ -73,62 +71,62 @@ const ProductList = () => {
   }, []);
 
   return (
-  <div>
-    <NavBar></NavBar>
-    <Container>
-      <FilterContainer>
-        <Filter>
-         <FilterText>Filter Products:</FilterText>
-         <h5>Price : </h5>
-         <Slider
+    <div>
+      <NavBar></NavBar>
+      <Container>
+        <FilterContainer>
+          <Filter>
+            <FilterText>Filter Products:</FilterText>
+            <h5>Price : </h5>
+            <Slider
               value={price}
               onChange={priceHandler}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={0}
               max={25000}
-           />
-           <h5>Catagories : </h5>
-           <ul className='catagoriesBox'>
-              {
-                Catagories.map((category,index) =>{
-                   return <li className='category-link'
-                   key={index}
-                   onClick={()=>{
-                    setCate(category)
-                   }}
-                  >
-                   {category}
+            />
+            <h5>Catagories : </h5>
+            <ul className="catagoriesBox">
+              {Catagories.map((category, index) => {
+                return (
+                  <li
+                    className="category-link"
+                    key={index}
+                    onClick={() => {
+                      setCate(category);
+                    }}>
+                    {category}
                   </li>
-                })
-              }
-           </ul>
-           <fieldset>
+                );
+              })}
+            </ul>
+            <fieldset>
               <h5>Rating:</h5>
               <Slider
-              value={rating}
-              onChange={ratingHandler}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={0}
-              max={5}
-           />
-           </fieldset>
-        </Filter>
-        <Filter>
-          <FilterText>Sort Products:</FilterText>
-          <Select>
-            <Option selected>Price (asc)</Option>
-            <Option>Price (desc)</Option>
-          </Select>
-        </Filter>
-      </FilterContainer>
-      <Products price={price} cate={cate} rating={rating}/>
-    </Container>
-     <Newsletter />
+                value={rating}
+                onChange={ratingHandler}
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
+                min={0}
+                max={5}
+              />
+            </fieldset>
+          </Filter>
+          <Filter>
+            <FilterText>Sort Products:</FilterText>
+            <Select>
+              <Option selected>Price (asc)</Option>
+              <Option>Price (desc)</Option>
+            </Select>
+          </Filter>
+        </FilterContainer>
+        <Products price={price} cate={cate} rating={rating} />
+      </Container>
+      <Newsletter />
       <div className="container offset-sm-1">
-            <Footer/>  
-       </div>
+        <Footer />
+      </div>
     </div>
   );
 };

@@ -2,36 +2,34 @@ import { Fragment, useEffect } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import Loader from '../../components/Loader/Loader';
-import { clearErrors, getOrderDetails } from '../../redux/actions/OrderAction';
-import './OrderDetails.css';
+import Loader from "../../components/Loader/Loader";
+import { clearErrors, getOrderDetails } from "../../redux/actions/OrderAction";
+import "./OrderDetails.css";
 const OrderDetails = () => {
-    const { order, error, loading } = useSelector((state) => state.orderDetails);
-    const dispatch = useDispatch();
-    const alert = useAlert();
+  const { order, error, loading } = useSelector((state) => state.orderDetails);
+  const dispatch = useDispatch();
+  const alert = useAlert();
 
-    const {id} = useParams();
+  const { id } = useParams();
 
-    useEffect(() => {
-        if (error) {
-          alert.error(error);
-          dispatch(clearErrors());
-        }
-    
-        dispatch(getOrderDetails(id));
-      }, [dispatch, alert, error, id]);
-    
-    return (
-      <Fragment>
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+
+    dispatch(getOrderDetails(id));
+  }, [dispatch, alert, error, id]);
+
+  return (
+    <Fragment>
       {loading ? (
         <Loader />
       ) : (
         <Fragment>
           <div className="orderDetailsPage">
             <div className="orderDetailsContainer">
-              <h1>
-                Order #{order && order._id}
-              </h1>
+              <h1>Order #{order && order._id}</h1>
               <h2>Shipping Info</h2>
               <div className="orderDetailsContainerBox">
                 <div>
@@ -40,9 +38,7 @@ const OrderDetails = () => {
                 </div>
                 <div>
                   <p>Phone:</p>
-                  <span>
-                   0{order.shippingInfo && order.shippingInfo?.phoneNumber}
-                  </span>
+                  <span>0{order.shippingInfo && order.shippingInfo?.phoneNumber}</span>
                 </div>
                 <div>
                   <p>Address:</p>
@@ -57,14 +53,11 @@ const OrderDetails = () => {
                 <div>
                   <p
                     className={
-                      order.paymentInfo &&
-                      order.paymentInfo.status === "succeeded"
+                      order.paymentInfo && order.paymentInfo.status === "succeeded"
                         ? "greenColor"
                         : "redColor"
-                    }
-                  >
-                    {order.paymentInfo &&
-                    order.paymentInfo.status === "succeeded"
+                    }>
+                    {order.paymentInfo && order.paymentInfo.status === "succeeded"
                       ? "PAID"
                       : "NOT PAID"}
                   </p>
@@ -84,8 +77,7 @@ const OrderDetails = () => {
                       order.orderStatus && order.orderStatus === "Delivered"
                         ? "greenColor"
                         : "redColor"
-                    }
-                  >
+                    }>
                     {order.orderStatus && order.orderStatus}
                   </p>
                 </div>
@@ -99,24 +91,20 @@ const OrderDetails = () => {
                   order.orderItems.map((item) => (
                     <div key={item.product}>
                       <img src={item.image} alt="Product" />
-                      <Link to={`/product/${item.product}`}>
-                        {item.name}
-                      </Link>{" "}
+                      <Link to={`/product/${item.product}`}>{item.name}</Link>{" "}
                       <span>
-                        {item.quantity} X ₹{item.price} ={" "}
-                        <b>₹{item.price * item.quantity}</b>
+                        {item.quantity} X ₹{item.price} = <b>₹{item.price * item.quantity}</b>
                       </span>
                     </div>
                   ))}
               </div>
             </div>
           </div>
-          <div>
-        </div>
+          <div></div>
         </Fragment>
       )}
     </Fragment>
-);
+  );
 };
 
 export default OrderDetails;
